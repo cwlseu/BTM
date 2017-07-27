@@ -1,31 +1,31 @@
-#!/bin/bash
-# run an toy example for BTM
+#!/bin/sh
 
-K=20   # number of topics
+K=100   # number of topics
 
 alpha=`echo "scale=3;50/$K"|bc`
 beta=0.005
-niter=5
-save_step=501
-
-input_dir=../sample-data/
-output_dir=../output/
-model_dir=${output_dir}model/
+niter=60
+save_step=50
+echo $alpha
+input_dir=../sample-data
+output_dir=../output
+model_dir=$output_dir/model/
 mkdir -p $output_dir/model 
 
 # the input docs for training
-doc_pt=${input_dir}doc_info.txt
+doc_pt=$input_dir/segment_video_all
 
 echo "=============== Index Docs ============="
 # docs after indexing
-dwid_pt=${output_dir}doc_wids.txt
+dwid_pt=$output_dir/doc_wids.txt
 # vocabulary file
-voca_pt=${output_dir}voca.txt
-python indexDocs.py $doc_pt $dwid_pt $voca_pt
+voca_pt=$input_dir/vocab_map.txt
+python preprocess_docs.py $doc_pt $voca_pt $dwid_pt
 
 ## learning parameters p(z) and p(w|z)
 echo "=============== Topic Learning ============="
-W=`wc -l < $voca_pt` # vocabulary size
+#W=`wc -l < $voca_pt` # vocabulary size
+W=272373
 make -C ../src
 echo "../src/btm est $K $W $alpha $beta $niter $save_step $dwid_pt $model_dir"
 ../src/btm est $K $W $alpha $beta $niter $save_step $dwid_pt $model_dir

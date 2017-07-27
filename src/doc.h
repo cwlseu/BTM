@@ -43,7 +43,7 @@ public:
 private:
   void read_doc(const string& s) {
     istringstream iss(s);
-	int w;
+	  int w;
     while (iss >> w)  ws.push_back(w);
   }
 };

@@ -37,6 +37,18 @@ namespace str_util {
 	
     return vec;
   }
+  inline std::pair<string, string> split_corpus(const std::string& s, const std::string& c=" ")
+  {
+      std::vector<std::string> v;
+      std::string::size_type pos1, pos2;
+      pos2 = s.find(c);
+      pos1 = 0;
+      std::string pacid = s.substr(pos1, pos2-pos1);
+      pos1 = pos2 + c.size();
+      while(s[pos1] == c[0]) pos1++;
+      std::string content = s.substr(pos1);
+      return make_pair<string, string>(pacid, content);
+  }
 
   // turn a int to string
   inline string itos(int n) {

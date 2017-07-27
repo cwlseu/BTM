@@ -10,8 +10,12 @@ import sys
 def read_voca(pt):
     voca = {}
     for l in open(pt):
-        wid, w = l.strip().split('\t')[:2]
-        voca[int(wid)] = w
+        try:
+            [w, wid]  = l.split('\t', 2)
+            voca[int(wid)] = w
+        except ValueError as e:
+            pass
+            #voca[int(l.strip())] = '\t'
     return voca
 
 def read_pz(pt):
@@ -46,8 +50,8 @@ if __name__ == '__main__':
     K = int(sys.argv[2])
     voca_pt = sys.argv[3]
     voca = read_voca(voca_pt)    
-    W = len(voca)
-    print('K:%d, n(W):%d' % (K, W))
+    #W = len(voca)
+    #print('K:%d, n(W):%d' % (K, W))
 
     pz_pt = model_dir + 'k%d.pz' % K
     pz = read_pz(pz_pt)
