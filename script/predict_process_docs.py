@@ -22,19 +22,16 @@ def get_word2id(source):
 def preprocess_corpus_w2iid(corpus_file, target_file, doc2iid="dociid.txt"):
     print('corpus file:' + corpus_file)
     doc_id = 0
-    total_len = 0 
     with open(target_file, 'w') as fw, open(corpus_file) as fr, open(doc2iid, 'w') as fwdoc:
         line = fr.readline()
         while line:
             [pacid, content] = line.split('\t', 2)
             wids = [str(w2id[w]) for w in content.strip().split()]
-            if len(wids) >= 2: 
-                fw.write("%s\n" % (' '.join(wids)))
-                fwdoc.write("%s\t%d\n" % (pacid, doc_id))
-                doc_id += 1
-                total_len += len(wids)
+            fw.write("%s\n" % (' '.join(wids)))
+            fwdoc.write("%s\t%d\n" % (pacid, doc_id))
             line = fr.readline()
-    print "Average number of keyword of video is:%d" % (total_len/doc_id)
+            doc_id += 1
+
 if __name__ == '__main__':
     if len(sys.argv) < 4:
         print('Usage: python %s <doc_pt> <voca_pt> <dwid_pt> ' % sys.argv[0])
@@ -47,5 +44,5 @@ if __name__ == '__main__':
     voca_pt = sys.argv[2]
     dwid_pt = sys.argv[3]
     w2id = get_word2id(voca_pt)
-    # print('n(w)='+str(len(w2id)))
+    print('n(w)='+str(len(w2id)))
     preprocess_corpus_w2iid(doc_pt, dwid_pt)
